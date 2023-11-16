@@ -26,6 +26,6 @@ public class SortMethod {
         }
         //toArray方法可以将一个List转成数组,需要一个同类型数组的原型来指定返回数组的类型
         return merged.toArray(new int[0][]);
-
     }
+
 }

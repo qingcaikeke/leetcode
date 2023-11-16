@@ -430,7 +430,7 @@ public class ListProblems {
                     cur = cur.next;
                 }
                 //一般情况
-                else {
+                else {//找到小的，断链，插入到small后面
                     large.next = cur.next;
                     cur.next = small.next;
                     small.next = cur;
@@ -438,7 +438,7 @@ public class ListProblems {
                     cur = large.next;
                 }
             }
-            else {
+            else {//找到大的才会移动large
                 large = cur;
                 cur = large.next;
             }
@@ -520,7 +520,7 @@ public class ListProblems {
     }
     //根据题目要求1.o(1)时间定位：哈希表，
     // 定位元素后移到最前面，表示最近调用，而移动一个节点有需要涉及前驱节点，所以需要双向链表
-    //get要做的事：map中找到节点，addtohead;
+    //get要做的事：map中找到节点，断链，addtohead;
     //put: 第一次，创建节点，addtohead,放入map中，size++
     //      之后,拿出节点，改变val，移到最前面分两部，一部断链，一部addtohead；
     //      可能会超出容量，这时候要移除链尾，同时删除map
@@ -610,7 +610,27 @@ public class ListProblems {
         }
         return dummy.next;
     }
-
+    //k个一组翻转链表
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy  = new ListNode(0,head);
+        ListNode pre = dummy;//通过pre去找start
+        ListNode end = pre;
+        while (end!=null){
+            for(int i=0;i<k&&end!=null;i++){
+                end = end.next;
+            }//end是一组中的最后一个
+            if(end==null) break;
+            ListNode temp = end.next;
+            end.next = null;
+            ListNode start = pre.next;
+            reverseList(start);
+            pre.next = end;
+            start.next = temp;
+            pre = start;
+            end = pre;
+        }
+    return dummy.next;
+    }
 
 
 
