@@ -339,7 +339,7 @@ public class ListProblems {
         return newHead;
     }
     //迭代没写出来
-    public ListNode swapPairs(ListNode head){
+    public ListNode swapPairs1(ListNode head){
         //每次需要关注的是三个节点，一个前驱节点(cur)，两个需要交换的节点(front,end)；实际上是四个，end后的也是
         ListNode dummy = new ListNode(0,head);
         ListNode cur = dummy;
@@ -374,7 +374,7 @@ public class ListProblems {
         cur.next = null;
         return newHead;
     }
-    //删除排序链表中的重复元素
+    //83删除排序链表中的重复元素
     //多解法：1.一个一个看 2. 双指针 3.递归 但后两种没必要
     public ListNode deleteDuplicates1(ListNode head) {
         if(head==null)return head;
@@ -396,23 +396,44 @@ public class ListProblems {
             return head;
         }
     }
-    //删除重复元素2：只要有重的就删除，一个不留
-    //写的不好
+    //82删除重复元素2：只要有重的就删除，一个不留
+    //写的不好,11-29第二次写依旧不好,思路都是分删除和不删除，只有删除需要移动pre，所以需要if
+    //法1：从pre开始看，如果之后的两个元素值相同，说明需要删除，记录值value，逐个删除后面的等于value的节点。
+    // 如果不同，说明该节点只出现一次，就可以移动pre
     public ListNode deleteDuplicates2(ListNode head) {
         ListNode dummy = new ListNode(0,head);
-        ListNode cur = dummy;
-        while (cur.next!=null&&cur.next.next!=null){
-            //如果出现相等
-            if(cur.next.val==cur.next.next.val){
-                int value = cur.next.val;
-                while (cur.next!=null&&cur.next.val==value){
-                    cur.next = cur.next.next;
+        ListNode pre = dummy;
+        ListNode cur = head;
+        while (cur!=null&&cur.next!=null){
+            if(cur.val==cur.next.val){
+                int value = cur.val;
+                while (cur!=null && cur.val ==value){
+                    cur = cur.next;
                 }
+                pre.next = cur;
             }
-            //如果没有
             else {
+                pre = cur;
                 cur = cur.next;
             }
+        }
+        return dummy.next;
+    }
+    public ListNode deleteDuplicates22(ListNode head) {
+        ListNode dummy = new ListNode(0,head);
+        ListNode pre = dummy;
+        ListNode cur = head;
+        while (cur!=null){
+            while (cur.next!=null&&cur.val==cur.next.val){
+                cur = cur.next;//找到最后一个重复元素的位置
+            }
+            if(pre.next == cur) {
+                pre = pre.next;
+            }
+            else{
+                pre.next = cur.next;
+            }
+            cur = cur.next;
         }
         return dummy.next;
     }
@@ -610,7 +631,8 @@ public class ListProblems {
         }
         return dummy.next;
     }
-    //k个一组翻转链表
+    //25：k个一组翻转链表
+    //先分离，再翻转再拼接，分离需要有pre，start，end，temp
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy  = new ListNode(0,head);
         ListNode pre = dummy;//通过pre去找start

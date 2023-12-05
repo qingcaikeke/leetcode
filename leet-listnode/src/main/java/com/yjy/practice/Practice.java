@@ -1,7 +1,7 @@
 package com.yjy.practice;
 
-import java.lang.annotation.Target;
-import java.util.*;
+import com.yjy.list.ListProblems;
+
 
 public class Practice {
     public class TreeNode {
@@ -37,8 +37,33 @@ public class Practice {
         int right = Math.max(maxPath(root.right),0);
         return root.val+ Math.max(left,right);
     }
-    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+    public static void main(String[] args) {
+        int[] array = {9, 7, 5, 11, 12, 2, 14, 3, 10, 6};
 
+        System.out.println("Original Array: " + Arrays.toString(array));
+
+        quickSort(array, 0, array.length - 1);
+
+        System.out.println("Sorted Array: " + Arrays.toString(array));
+    }
+    public static void quickSort(int[] arr,int low,int high){
+        if(low>=high) return;
+        int index = partition(arr,low, high);
+        quickSort(arr,low,index-1);
+        quickSort(arr,index+1,high);
+    }
+    public static int partition(int[] arr,int start,int end){
+        int pivot = arr[end];
+        int back = start-1;
+        for(int front = start;front<=end;front++){
+            if(arr[front]<=pivot){
+                back++;
+                int temp = arr[back];
+                arr[back] = arr[front];
+                arr[front] = temp;
+            }
+        }
+        return back;
     }
 
 

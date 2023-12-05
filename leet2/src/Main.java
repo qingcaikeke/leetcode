@@ -2,19 +2,57 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-//        ListNode head = new ListNode(2);
-//        ListNode node2 = new ListNode(3);
-//        ListNode node3 = new ListNode(4);
-//        ListNode node4 = new ListNode(1);
-//        // 构建链表          2  3 4     1
-//        head.next = node2;
-//        node2.next = node3;
-//        node3.next = node4;
+        ListNode head = new ListNode(2);
+        ListNode node2 = new ListNode(3);
+        ListNode node3 = new ListNode(4);
+        ListNode node4 = new ListNode(1);
+        // 构建链表          2  3 4     1
+        head.next = node2;
+        node2.next = node3;
+        node3.next = node4;
 //          int[] nums = new int[]{5,4,9,1000,52,37,12,0};
-        int[] nums = new int[]{86,39,77,23,32,45,58,63,3,4,37,22};
-        int n = nums.length;
-          heapSort(nums);
-        System.out.println(Arrays.toString(nums));
+//        int[] nums = new int[]{86,39,77,23,32,45,58,63,3,4,37,22};
+//        int n = nums.length;
+//          heapSort(nums);
+//        System.out.println(Arrays.toString(nums));
+        sortList(head);
+    }
+    public static ListNode sortList(ListNode head) {
+        return partation(head);
+    }
+    public static ListNode partation(ListNode head){
+        if(head==null|| head.next==null) return head;
+        ListNode slow = head,fast = head;
+        while (fast!=null&&fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }//slow为分割后第二个链表的头节点
+        ListNode mid = slow.next;
+        slow.next = null;
+        ListNode l1 = partation(head);
+        ListNode l2 = partation(mid);
+        ListNode sorted = merge(l1,l2);
+        return sorted;
+    }
+    //合：合并两个有序链表：递归(没写出来)，迭代
+    public static ListNode merge(ListNode head1,ListNode head2){
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        ListNode l1 = head1,l2 = head2;
+        while (l1!=null&&l2!=null){
+            if(l1.val<=l2.val){
+                pre.next = l1;
+                l1 = l1.next;
+            }else {
+                pre.next = l2;
+                l2 = l2.next;
+            }
+            pre = pre.next;
+        }
+        if(l1==null) pre.next = l2;
+        if(l2==null) pre.next = l1;
+        return dummy.next;
+
     }
     public static class ListNode {
         int val;
@@ -32,6 +70,7 @@ public class Main {
             this.next = next;
         }
     }
+
     public static void heapSort(int[] arr){
         int n = arr.length;
         //从最后一个非叶子节点开始往前找

@@ -72,7 +72,7 @@ public class Tree {
     public int minDepth(TreeNode root) {
         if(root==null) return 0;
         int leftD = minDepth(root.left);
-        int rightD = minDepth(root.right)
+        int rightD = minDepth(root.right);
         if(root.left!=null && root.right!=null)
             return Math.min(leftD,rightD)+1;
         else return Math.max(leftD,rightD)+1;

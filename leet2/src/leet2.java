@@ -311,51 +311,7 @@ public class leet2 {
         }
         return ans;
     }
-    public int[] InsertionSort(int[] nums) {
-//        在组内排序过的数据中，倒序找合适的位置
-        for(int i=1;i<nums.length;i++){
-            int j = i-1;
-            int currentValue = nums[i];
-            while (j>=0&&nums[j]>currentValue){
-                nums[j+1] = nums[j];
-                j--;
-            }
-            nums[j+1] = currentValue;
-        }
-        return nums;
-    }
-    public ListNode insertionSortList(ListNode head) {
-        if(head == null) return head;
-//        哑节点是为了便于在 head 节点之前插入节点
-        ListNode dummyHead  = new ListNode(0);
-        dummyHead.next = head;
-        ListNode lastSorted = head;
-        ListNode curr = head.next;
-        while (curr!= null){
-//            链表只能从前往后查找，没办法直接和排好序的最后一个比然后从前往后找
-            if(lastSorted.val<=curr.val){
-//                lastSorted移动到下一个节点
-                lastSorted = lastSorted.next;
-            }else {
-                ListNode prev = dummyHead;
-                while (prev.next.val<curr.val){
-                    prev = prev.next;
-                }
-                //注意插入操作，沃出现了死循环
-//                此时已找到curr应该在的位置，即prev的下一个节点
-//                进行curr的插入操作，要先把prev的下一个节点原来的储存起来
-                lastSorted.next = curr.next;//curr的下一个节点,这个节点是在本次for中没有变化过的,注意也要在curr改变(插入操作之前)进行
-                curr.next = prev.next;
-                prev.next = curr;
-//                不能使用底下注释掉这一行的方法，因为原来lastsorted的下一个是原来的curr，而经过插入操作后，curr发生了变化
-//                直接把下面这一行拿到插入之前也不行,理由是一样的
-//                拿到插入之前,还是相当于找curr作为新的lastsoted,进行插入操作后cur会发生变化
-//                lastSorted = lastSorted.next;
-            }
-            curr = lastSorted.next;
-        }
-        return dummyHead.next;
-    }
+
     //归并排序
     public void mergeSort(int[] nums){
         if(nums.length <2) return;
@@ -489,64 +445,11 @@ public class leet2 {
             }
         }
     }
-    public void quickSort(int[] arr, int low, int high) {
-        if(low>=high) return;
-        int pivotIndex = partition(arr,low,high);
-        quickSort(arr,low,pivotIndex-1);
-        quickSort(arr,pivotIndex+1,high);
-    }
-    public int partition(int[] arr,int start,int end){
-        //使用pivot(枢轴)作为基准进行分割
-//        int pivot =(int)(start+ Math.random() *(end - start + 1));
-//        swap(arr,pivot,end);  //现在end位置存放基准pivot
-        int pivot = arr[end];
-        int i=start-1; //i:分区指示器（可以认为有多少个元素小于等于pivot, j:遍历指示器
-        for(int j=start;j<=end;j++){
-            if(arr[j]<=pivot){
-                i++;
-                swap(arr,i,j);
-            }
-        }
-        return i;//i存放pivot的位置
-    }
+
     public void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
-    }
-    public void heapSort(int[] arr){
-        int n = arr.length;
-        //从最后一个非叶子节点开始往前找
-        //构造一个最大堆
-        for(int i= (n/2)-1;i>=0;i--){
-            heapify(arr,n,i);
-        }
-//        排序，每次取出当前最大值放到尾部
-        for(int i=n-1;i>0;i--){
-            //现在根一定是最大值，交换根和最后一个元素，然后把最后一个元素拿出二叉树
-            //当前的最后一个元素的索引就是i
-            swap(arr,0,i);
-            //交换后重新调整，构造二叉堆
-            heapify(arr,i,0);
-        }
-
-    }
-    public void heapify(int[] arr,int n,int i){
-        int largest = i;
-        //找到i的左右子节点
-        int l = 2*i+1;
-        int r = 2*i+2;
-        if(l<n && arr[largest] < arr[l]){
-            largest = l;
-        }
-        if(r<n && arr[largest] < arr[r]){
-            largest = r;
-        }
-        if(largest != i){
-            swap(arr,largest,i);
-            //交换后，被换下去那个节点处在一个新的位置，为了保证最大堆，还需要调整他的子树
-            heapify(arr, n, largest);
-        }
     }
 
     public void shellSort(int[] arr){
@@ -581,7 +484,6 @@ public class leet2 {
             swap(arr,i,minIndex);
         }
     }
-
 
 
 }
