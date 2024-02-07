@@ -197,26 +197,26 @@ public class ListProblems {
     //循环有序链表的插入 1.考虑插入规则，找到两个节点，前一个值小于val小于后一个，
 //    2.考虑特例，插入的比最大的还大 ， 或比最小的还小
 //    3.考虑边界条件：插入规则要求必须有两个节点，但可能只给1个，或者不给
-    class Node {
+    class Node1 {
         public int val;
-        public Node next;
+        public Node1 next;
 
-        public Node() {
+        public Node1() {
         }
 
-        public Node(int _val) {
+        public Node1(int _val) {
             val = _val;
         }
 
-        public Node(int _val, Node _next) {
+        public Node1(int _val, Node1 _next) {
             val = _val;
             next = _next;
         }
 
 
     }
-    public Node insert(Node head, int insertVal) {
-        Node node = new Node(insertVal);
+    public Node1 insert(Node1 head, int insertVal) {
+        Node1 node = new Node1(insertVal);
         if (head == null) {
             node.next = node;
             head = node;
@@ -228,7 +228,7 @@ public class ListProblems {
             return head;
         }
         //给的head不一定是最小值，遍历一圈去找满足条件的位置插入，如果没找到，说明插入在最大元素的后面
-        Node cur = head, next = head.next;
+        Node1 cur = head, next = head.next;
         while (next!=head){//有可能插到head和head前一个位置之间，这点要处理
             //使用if判断位置可以省略biggest的内存
             if(cur.val<=insertVal&&insertVal<=next.val) break;
@@ -257,23 +257,23 @@ public class ListProblems {
     }
     //复杂链表的复制：哈希表 新表.next = 原表->原表.next->原表.next的复制
     //正常链表的复制，每轮创建新节点即可，但是这样没法调整random的指向，因为不知道她有没有被建立过，建立了也没法快速找到
-    class Node {
+    class Node2 {
         int val;
-        Node next;
-        Node random;
+        Node2 next;
+        Node2 random;
 
-        public Node(int val) {
+        public Node2(int val) {
             this.val = val;
             this.next = null;
             this.random = null;
         }
     }
-    public Node copyRandomList(Node head) {
+    public Node2 copyRandomList(Node2 head) {
         if(head==null) return head;
-        Map<Node,Node> map = new HashMap<>();
-        Node cur = head;
+        Map<Node2,Node2> map = new HashMap<>();
+        Node2 cur = head;
         while (cur!=null){
-            map.put(cur,new Node(cur.val));
+            map.put(cur,new Node2(cur.val));
             cur = cur.next;
         }
         cur = head;
@@ -286,11 +286,11 @@ public class ListProblems {
     }
     //思路：只要保证能找到新random的位置，就能进行指针的填充
     //解法：拼接+拆分
-    public Node copyRandomList1(Node head){
+    public Node2 copyRandomList1(Node2 head){
         if(head==null)return head;
-        Node cur = head;
+        Node2 cur = head;
         while (cur!=null){
-            Node newCur = new Node(cur.val);
+            Node2 newCur = new Node2(cur.val);
             newCur.next = cur.next;
             cur.next = newCur;
             cur = cur.next.next;
@@ -302,9 +302,9 @@ public class ListProblems {
             }
             cur = cur.next.next;
         }
-        Node originNode = head;
-        Node newNode = head.next;
-        Node res = newNode;
+        Node2 originNode = head;
+        Node2 newNode = head.next;
+        Node2 res = newNode;
         while (originNode!=null){
             originNode.next = newNode.next;
             if(originNode.next != null) newNode.next = originNode.next.next;
@@ -653,7 +653,6 @@ public class ListProblems {
         }
     return dummy.next;
     }
-
 
 
 

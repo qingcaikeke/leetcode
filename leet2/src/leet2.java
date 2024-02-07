@@ -205,7 +205,7 @@ public class leet2 {
         }
         return dqueue.isEmpty()?"R":"D";
     }
-    public int[] advantageCount(int[] nums1, int[] nums2) {
+    public int[] badvantageCount(int[] nums1, int[] nums2) {
         int n = nums1.length;
         Integer[] idx1 = new Integer[n];
         Integer[] idx2 = new Integer[n];
@@ -237,7 +237,7 @@ public class leet2 {
     }
 //    进一步优化，nums1可以直接排序，把它放到对应nums2的位置即可
 //    再优化,直接把nums2对应位置的元素替换，降低空间复杂度
-    public int[] advantageCount(int[] nums1, int[] nums2) {
+    public int[] aadvantageCount(int[] nums1, int[] nums2) {
         int n = nums1.length;
         Integer[] idx2 = new Integer[n];
         for(int i = 0; i<n; i++) idx2[i] = i;
@@ -259,7 +259,7 @@ public class leet2 {
         }
         return ans;
     }
-    public int[] advantageCount(int[] nums1, int[] nums2){
+    public int[] cadvantageCount(int[] nums1, int[] nums2){
         int n =nums1.length;
         int[] sortedb = nums2.clone();
         Arrays.sort(sortedb);
@@ -286,7 +286,7 @@ public class leet2 {
         }
         return ans;
     }
-    public int[] advantageCount(int[] nums1, int[] nums2){
+    public int[] dadvantageCount(int[] nums1, int[] nums2){
         int n =nums1.length;
         int[] sortedb = nums2.clone();
         Arrays.sort(sortedb);

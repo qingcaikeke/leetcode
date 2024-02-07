@@ -88,6 +88,27 @@ public class Main {
         }
 
     }
+    public boolean isMatch(String s, String p) {
+        //1.为什么要动态规划
+        int m = s.length(),n = p.length();
+        char[] ss = s.toCharArray();
+        char[] pp = p.toCharArray();
+        boolean[][] dp = new boolean[m][n];
+        //初始化较复杂，要注意
+        //a可以和*a匹配
+            //p的前j个(0,j-1)能不能构成s的前i个
+            for(int i=0;i<m;i++){
+                for (int j=0;j<n;j++){
+                    if(pp[j]==ss[i] || pp[j]=='.') dp[i][j] = dp[i-1][j-1];
+                    else if(pp[j]=='*'){
+                        if(pp[j-1]=='.'||pp[j-1]==ss[i]) dp[i][j] = dp[i-1][j-1];
+                        dp[i][j] =dp[i][j] || dp[i][j-1];//没代表任何字符
+                    }else dp[i][j] = false;
+                }
+            }
+        return dp[m][n];
+    }
+
     public static void heapify(int[] arr,int n,int i){
         int largest = i;
         //找到i的左右子节点

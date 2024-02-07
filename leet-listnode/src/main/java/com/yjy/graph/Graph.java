@@ -107,6 +107,7 @@ public class Graph {
             roots = new int[n];
             for(int i=0;i<n;i++){
                 roots[i] = i;//初始化每个节点的根都是自己
+
             }
         }
         public int find(int i){
@@ -231,6 +232,33 @@ public class Graph {
         }
     }
 
+    //200:岛屿数量
+    //没必要新建一个标记数组，可以直接在原数组上改，标记的目的是为了防止‘1’的重复计算
+    //每找到一个1，深度搜索，把周围的1全置成0，然后结果加一
+    public int numIslands(char[][] grid) {
+        int res=0;
+        int m = grid.length;int n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for(int j=0;j<n;j++){
+                if(grid[i][j]=='1'){
+                    dfs(i,j,grid);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    public void dfs(int x,int y,char[][] grid){
+        int m = grid.length;int n = grid[0].length;
+        if(x<0||x>=m||y<0||y>=n||grid[x][y]=='0'){
+            return ;
+        }
+        grid[x][y] = '0';
+        dfs(x+1,y,grid);
+        dfs(x-1,y,grid);
+        dfs(x,y+1,grid);
+        dfs(x,y-1,grid);
+    }
 
 
 

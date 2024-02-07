@@ -1,11 +1,11 @@
 package com.yjy.partionAndSort;
 
 import com.yjy.text;
+import org.w3c.dom.ls.LSException;
+import org.w3c.dom.ls.LSInput;
 
 import java.io.LineNumberReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class PartionAndSort {
     public class ListNode {
@@ -142,6 +142,7 @@ public class PartionAndSort {
         return dummy.next;
     }
     //148归并排序，o（nlogn）分三个步骤：分，排(排是通过最后只剩两个节点，然后合来实现的)，合
+    //分治流程其实都差不多，合并k个链表，排序链表：都是一个主函数，一个分割函数用于递归，一个逻辑处理函数（合并/排序）
     public ListNode sortList(ListNode head){
         if(head==null|| head.next==null) return head;
         ListNode slow = head,fast = head;
@@ -178,10 +179,85 @@ public class PartionAndSort {
         return dummy.next;
 
     }
-
-    public ListNode mergeKLists(ListNode[] lists) {
-
+    //合并k个升序链表
+    //法1：顺寻合并
+    public ListNode mergeKLists1(ListNode[] lists) {
+        ListNode res = lists[0];
+        for(int i=1;i<lists.length;i++){
+            res = mergeTwoLists(res,lists[i]);
+        }
+        return res;
     }
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        //合并res和下一个链表list[i]
+        while (l1!=null && l2!=null){
+            if(l1.val < l2.val ){
+                pre.next = l1;
+                l1 = l1.next;
+            }
+            else {
+                pre.next = l2;
+                l2 = l2.next;
+            }
+            pre = pre.next;
+        }
+        pre.next = l1==null? l2 : l1;
+        return dummy.next;
+    }
+
+
+    //法2：分治合并，更快，但是多占用了空间,递归logk的栈空间
+    // 为什么快：1.合并次数少2.链表被遍历的更少，比方说顺寻合并，第一个链表会被遍历k次，分治只遍历logk次
+    public ListNode mergeKLists(ListNode[] lists) {
+        return mergeKLists(lists,0,lists.length-1);
+    }
+    public ListNode mergeKLists(ListNode[] lists,int start,int end){
+        if(start==end) return lists[start];
+        if(start>end) return null;
+        int mid = (start+end)/2;
+        ListNode l1 = mergeKLists(lists,start,mid);
+        ListNode l2 = mergeKLists(lists,mid+1,end);
+        return mergeTwoLists(l1,l2);
+    }
+
+
+    //法3：使用优先级队列
+    //PriorityQueue 是 Java 中提供的一种优先级队列的实现,基于堆实现，保证插入删除后，元素按优先级排列
+    //类里的有比较方法才能区创建优先级队列
+    class Comp implements Comparator<ListNode> {
+        //Comp 类实现了 Comparator<ListNode> 接口，
+        // 意味着它必须提供 compare 方法的实现，该方法用于比较两个 ListNode 对象的顺序
+        //优先级队列储存的是listnode所以你的比较器比较的应该是两个listnode，因果关系不要搞混
+        @Override
+        public int compare(ListNode o1, ListNode o2) {
+            return o1.val-o2.val;
+        }
+    }
+    //指定比较器（Comparator）,默认使用元素自然顺序，但在这里希望比较节点值
+    //涉及到多态，创建优先级队列需要传递一个comparator对象，用于定义比较规则
+    //本题使用comp类实现了comparator接口，把该类的实例传到一个期望接收comparator接口的对象
+    //实现了创建优先级队列使用自定义比较方法
+    PriorityQueue<ListNode> queue = new PriorityQueue<>(new Comp());
+    public ListNode mergeKLists2(ListNode[] lists) {
+        for(ListNode node:lists){
+            if(node!=null){
+                queue.add(node);
+            }
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode pre = dummy;
+        while (!queue.isEmpty()){
+            ListNode node = queue.poll();
+            pre.next = node;
+            pre = pre.next;
+            if(node.next!=null)
+            queue.add(node.next);
+        }
+        return dummy.next;
+    }
+
 
 
 
