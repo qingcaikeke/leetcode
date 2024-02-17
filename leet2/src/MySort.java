@@ -66,16 +66,16 @@ public class MySort {
      * 时间（nlogn，每一层合并的时间为n，递归深度logn）空间（nlogn：每一层n，深度logn）
      */
     public static void mergeSort(int[] nums){
-        if(nums.length<=1){
-            return;
-        }
-        int mid = nums.length/2;
-        int[] nums1 = Arrays.copyOfRange(nums,0,mid);
-        int[] nums2 = Arrays.copyOfRange(nums,mid,nums.length);
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
-        merge(nums,nums1,nums2);
+        if(nums.length <2) return;
+        int mid = nums.length /2;
+        int[] left = Arrays.copyOfRange(nums,0,mid); //包含头(0)不包含尾mid
+        int[] right = Arrays.copyOfRange(nums,mid, nums.length);
+        mergeSort(left); //传入一个数组后做两件事 1.拆分成左右 2. 左右合并再赋值到传入的那个数组
+        mergeSort(right);
+        //分到最小后调用merge合并作为新的left传入
+        merge(nums,left,right);
     }
+
     public static int[] merge(int[] nums,int[] nums1,int[] nums2){
         int m = nums1.length,n = nums2.length;
         int i=0,j=0,k=0;

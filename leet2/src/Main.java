@@ -15,6 +15,7 @@ public class Main {
 //        int n = nums.length;
 //          heapSort(nums);
 //        System.out.println(Arrays.toString(nums));
+
         sortList(head);
     }
     public static ListNode sortList(ListNode head) {

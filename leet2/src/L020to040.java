@@ -55,7 +55,7 @@ public class L020to040 {
      * 32.
      * 33.搜索旋转排序数组：为什么能用二分，怎么用，想折线图，mid左右两侧一定至少有一个是有序的
      * 34.在排序数组中查找元素的第一个和最后一个位置:两次二分，二分得到结果后需要判断是不是target，判断过程需要用到left等，注意是否越界
-     * 35. 搜索插入位置:二分，找第一个大于等于target的
+     * 35.搜索插入位置:二分，找第一个大于等于target的
      * 36.有效的数独：要么时间要么空间，想要一次遍历完成，就要开多个数组储存结果
      * 37.
      * 38.外观数列，没思路,模拟，基本上想了个框架，边界值以及while/for的选择不好,一种双层while加双指针[start,end)，一种for加if [j-count,j)
@@ -303,7 +303,10 @@ public class L020to040 {
             //左半有序，看target在不在左半
             if(nums[mid]==target){
                 return mid;
-            }else if(nums[left]<=nums[mid]){
+            }
+            if(nums[left]<=nums[mid]){//这个位置必须有取等 [3,1] target =1;
+                // 取等的目的在于保证两部分一定有一部分是有序的，nums[left]==mid意味着两者之间元素全相等
+                //只是比了mid和left，不意味着跳到else有mid<right
                 if(nums[left]<=target && target<=nums[mid]){
                     right = mid-1;
                 }else {
