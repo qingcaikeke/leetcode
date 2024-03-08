@@ -1,11 +1,9 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MySort {
-    public static void main(String[] args) {
-        int[] nums = new int[]{6,5,4,3,2,1};
-        mergeSort(nums);
-        System.out.println(Arrays.toString(nums));
-    }
+
     static void swap(int[] nums,int a,int b){
         int temp = nums[a];
         nums[a] = nums[b];
@@ -77,6 +75,7 @@ public class MySort {
     }
 
     public static int[] merge(int[] nums,int[] nums1,int[] nums2){
+        //合并两个有序数组：三指针
         int m = nums1.length,n = nums2.length;
         int i=0,j=0,k=0;
         while (i<m&&j<n){
@@ -94,6 +93,52 @@ public class MySort {
     /**
      * 堆排序
      */
+    public static void main(String[] args) {
+        int[] arr = new int[]{3,4,5,6,1,7,8};
+
+        System.out.println(Arrays.toString(getTopK(arr,3)));
+    }
+
+    /**
+     * 求topK
+     */
+    public static int[] getTopK(int[] nums,int k) {
+        int[] arr = Arrays.copyOfRange(nums,0,k);
+        getSmallHeap(arr);
+        for(int i=k;i<nums.length;i++) {
+            if(nums[i]>arr[0]){
+                arr[0] = nums[i];
+                heapify(arr,0,k);
+            }
+        }
+        return arr;
+    }
+    public static void getSmallHeap(int[] arr){
+        //构建一个最小堆
+        //从下往上建堆时间复杂度更好
+        // 从倒数第二行的右节点开始，和他的左右子节点比，把更小的挪上去，然后一直进行到根节点
+        int n = arr.length;
+        for(int i= n/2-1;i>=0;i--){ //最后一个节点是n-1 2i+1=n-1 i=n/2-1
+            //第i个节点的左节点2i+1,右节点2i+2
+            heapify(arr,i,n);//n是界，否则会超数组
+        }
+    }
+    //堆化：比较当前节点和他的左右子节点，把最小的挪上去
+    public static void heapify(int[] arr,int i,int n){
+        int l = 2*i+1 ,r = 2*i+2;
+        int min = i;
+        if(l<n && arr[l]<arr[min]){
+            min = l;
+        }
+        if(r<n && arr[r]<arr[min]){
+            min = r;
+        }
+        if(min!=i){
+            swap(arr,min,i);
+            //如果发生了交换，需要递归的调整子树
+            heapify(arr,min,n);
+        }
+    }
 
     /**
      * 插入排序

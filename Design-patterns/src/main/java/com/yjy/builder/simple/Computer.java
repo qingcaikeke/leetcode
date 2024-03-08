@@ -1,4 +1,4 @@
-package com.yjy.builder;
+package com.yjy.builder.simple;
 
 // 产品类
 class Computer {

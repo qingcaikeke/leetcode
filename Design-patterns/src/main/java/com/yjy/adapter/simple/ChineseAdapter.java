@@ -1,4 +1,4 @@
-package com.yjy.adapter;
+package com.yjy.adapter.simple;
 
 // 适配器类
 class ChineseAdapter implements Translator {

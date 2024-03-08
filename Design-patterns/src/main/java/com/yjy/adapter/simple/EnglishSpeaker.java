@@ -1,4 +1,4 @@
-package com.yjy.adapter;
+package com.yjy.adapter.simple;
 
 // 被适配对象
 class EnglishSpeaker {

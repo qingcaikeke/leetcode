@@ -312,30 +312,7 @@ public class leet2 {
         return ans;
     }
 
-    //归并排序
-    public void mergeSort(int[] nums){
-        if(nums.length <2) return;
-        int mid = nums.length /2;
-        int[] left = Arrays.copyOfRange(nums,0,mid); //包含头(0)不包含尾mid
-        int[] right = Arrays.copyOfRange(nums,mid, nums.length);
-        mergeSort(left); //传入一个数组后做两件事 1.拆分成左右 2. 左右合并再赋值到传入的那个数组
-        mergeSort(right);
-        //分到最小后调用merge合并作为新的left传入
-        merge(nums,left,right);
-    }
-    public void merge(int nums[],int[] left,int[] right){
-        int i=0,j=0,k=0;
-        while (i< left.length&&j< right.length){
-            if(left[i]<right[j]) nums[k++] = left[i++];
-            else nums[k++] = right[j++];
-        }
-        while (i< left.length){
-            nums[k++] = left[i++];
-        }
-        while (j< right.length){
-            nums[k++] = right[j++];
-        }
-    }
+
     //基数排序
     public int[] radixSort(int nums[]){
         int n = nums.length;
@@ -432,19 +409,7 @@ public class leet2 {
             }
         }
     }
-//    冒泡排序，每次排序找到当前剩余元素的最大元素，移到最后
-    public void bubbleSort(int[] nums){
-        int n = nums.length;
-        for(int i=0;i<n-1;i++){
-            for(int j=0;j<n-1-i;j++){
-                if(nums[j]>nums[j+1]) {
-                    int temp = nums[j+1];
-                    nums[j+1] =nums[j];
-                    nums[j] =temp;
-                }
-            }
-        }
-    }
+
 
     public void swap(int[] arr, int i, int j) {
         int temp = arr[i];
